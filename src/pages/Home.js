@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   StyleSheet,
   SafeAreaView,
   TextInput,
   Platform,
-  TouchableOpacity,
+  FlatList,
 } from "react-native";
 
 import { Button } from "../components/Button";
@@ -31,7 +30,6 @@ export default function Home() {
       {/* SafeAreaView => '<View>' para ajustar tela de ios (sem efeito em android) */}
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Welcome, Gabriel</Text>
-
         <TextInput
           // {setNewSkill} indicando mudança no 'newSkill'
           onChangeText={setNewSkill}
@@ -39,16 +37,14 @@ export default function Home() {
           placeholder="New skill"
           placeholderTextColor="#555"
         />
-
         <Button onPress={handleAddNewSkill} />
-
         {/* marginVertical => coloca margin em cima e embaixo  */}
         <Text style={[styles.title, { marginVertical: 50 }]}>My skills</Text>
-
-        {/*Percorrendo cada skill e adicionando um novo elemento*/}
-        {mySkills.map((skill) => (
-          <SkillCard skill={skill} />
-        ))}
+        <FlatList
+          data={mySkills}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => <SkillCard skill={item} />}
+        />
       </SafeAreaView>
     </>
   );
