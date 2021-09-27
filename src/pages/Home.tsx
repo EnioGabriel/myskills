@@ -22,7 +22,7 @@ export default function Home() {
   // pode setar o estado inicial utilizando useState(QLQR COISA)
   const [newSkill, setNewSkill] = useState("");
   const [mySkills, setMySkills] = useState<ISkillData[]>([]);
-  const [grettings, setGrettings] = useState("");
+  const [greetings, setGreetings] = useState("");
 
   // usar sempre o 'handle' para indicar qnd vc vai lidar com uma ação executada pelo usuário
   function handleAddNewSkill() {
@@ -35,15 +35,21 @@ export default function Home() {
     setMySkills((oldState) => [...oldState, data]);
   }
 
+  function handleRemoveSkill(id: string) {
+    setMySkills((oldState) => {
+      return oldState.filter((skill) => skill.id !== id);
+    });
+  }
+
   useEffect(() => {
     const currentHour = new Date().getHours();
 
     if (currentHour < 12) {
-      setGrettings("Good morning");
+      setGreetings("Good morning");
     } else if (currentHour >= 12 && currentHour < 18) {
-      setGrettings("Good afternoon");
+      setGreetings("Good afternoon");
     } else {
-      setGrettings("Good night");
+      setGreetings("Good night");
     }
   }, []);
 
@@ -53,7 +59,7 @@ export default function Home() {
       {/* SafeAreaView => '<View>' para ajustar tela de ios (sem efeito em android) */}
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Welcome, Gabriel</Text>
-        <Text style={styles.greetings}>{grettings}</Text>
+        <Text style={styles.greetings}>{greetings}</Text>
         <TextInput
           // {setNewSkill} indicando mudança no 'newSkill'
           onChangeText={setNewSkill}
@@ -67,7 +73,13 @@ export default function Home() {
         <FlatList
           data={mySkills}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <SkillCard skill={item.name} />}
+          renderItem={({ item }) => (
+            <SkillCard
+              skill={item.name}
+              // Utilizar '() =>' quando a função precisa de um parâmetro
+              onPress={() => handleRemoveSkill(item.id)}
+            />
+          )}
         />
       </SafeAreaView>
     </>
