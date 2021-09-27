@@ -61,7 +61,7 @@ export default function Home() {
           placeholder="New skill"
           placeholderTextColor="#555"
         />
-        <Button onPress={handleAddNewSkill} />
+        <Button onPress={handleAddNewSkill} title={"Add"} />
         {/* marginVertical => coloca margin em cima e embaixo  */}
         <Text style={[styles.title, { marginVertical: 50 }]}>My skills</Text>
         <FlatList
